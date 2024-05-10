@@ -4,6 +4,7 @@ description: 拓扑排序的概念及其两种搜索实现方法
 slug: topological-sorting
 date: 2024-05-10 00:00:00+0800
 math: true
+toc: false
 categories:
     - notes
 tags:

@@ -4,6 +4,7 @@ description: 介绍 KMP 算法及其推导与实现过程
 slug: kmp-prefix-func
 date: 2024-05-10 00:00:02+0800
 math: true
+toc: false
 categories:
     - notes
 tags:

@@ -4,6 +4,7 @@ description: 对 LIS 问题的二分查找解法的深度解析
 slug: lis-w-binary-search
 date: 2024-05-10 00:00:01+0800
 math: true
+toc: false
 categories:
     - notes
 tags:
