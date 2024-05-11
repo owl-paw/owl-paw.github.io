@@ -3,6 +3,7 @@ baseurl = "https://eoinli.github.io"
 languageCode = "zh-cn"
 paginate = 5
 title = "Eoin Lee's Blog"
+theme = ["hugo-notice"]
 
 defaultContentLanguage = "zh-cn"
 hasCJKLanguage = true
