@@ -455,6 +455,8 @@ void reapply_passive_skills(int t = -1) {
 
 以下代码建议使用 Visual Studio Code 或者其他功能较丰富的编辑器打开预览，因为我在部分函数上添加了 Doxygen 注释，以便增强代码可读性，即使已经没有什么可读性可言了。但一定不要复制粘贴提交，一定要自己写一遍！
 
+{{< collapse "点击浏览全部代码（共 360 行，含注释）" >}}
+
 ``` cpp
 #include <cstdio>
 #include <string>
@@ -817,6 +819,8 @@ int main() {
     return fflush(stdout), 0;
 }
 ```
+
+{{< /collapse >}}
 
 ## Tips
 
