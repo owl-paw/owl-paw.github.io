@@ -27,7 +27,7 @@ OI Jumper 为开源项目，源码在[对应的 GitHub 仓库](https://github.co
 
 ## 开发
 
-我并不是一个很喜欢读文档的人，所以在按照官网指示安装好环境并初始化之后，我就转向 AI 求助。两天的开发后，我就在 Gemini 的帮助下，利用此前学习的基础 CSS 知识结合着 Tailwind CSS 框架完成了[最初的提交](https://github.com/eoinli/oi-jumper/commit/f52eafa3c88ca313e63db702eef51a208d1dc6d3)。部署完成的那一刻，我打开网页，看到心里充满了成就感。这时的网页已经实现了基本的题目跳转功能，支持深色模式的调整，且已经支持了洛谷、LibreOJ 和 Codeforces 三个 OJ。
+我并不是一个很喜欢读文档的人，所以在按照官网指示安装好环境并初始化之后，我就转向 AI 求助。两天的开发后，我就在 Gemini 的帮助下，利用此前学习的基础 CSS 知识结合着 Tailwind CSS 框架完成了[最初的提交](https://github.com/eoinli/oi-jumper/commit/f52eafa3c88ca313e63db702eef51a208d1dc6d3)。部署完成的那一刻，我打开网页，感到心里充满了成就感。这时的网页已经实现了基本的题目跳转功能，支持深色模式的调整，且已经支持了洛谷、LibreOJ 和 Codeforces 三个 OJ。
 
 但这显然是不够的。接下来的半个月里，我陆陆续续对许多 OJ 添加了支持，直到我觉得这个网页应该添加点什么东西。很多时候，我在 OI 刷题时获得的都是题目的名称，如果需要找到对应题目，还是需要去到对应 OJ 的主页上点进搜索。于是，我决定给我的 OI Jumper 添加搜索功能。
 
