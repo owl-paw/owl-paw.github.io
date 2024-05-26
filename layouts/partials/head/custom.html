@@ -1,0 +1,35 @@
+<style>
+  /* Overwrite CSS variable */
+  :root {
+    --sys-font-family: InterVariable, "Helvetica Neue", Helvetica, Arial;
+    --zh-font-family: "Hiragino Sans GB", "Source Han Sans SC VF",
+      "Source Han Sans SC", "Noto Sans CJK SC", "Microsoft YaHei UI",
+      "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif, "Microsoft Uighur";
+    --base-font-family: InterVariable, "Helvetica Neue", Helvetica, Arial,
+      "Hiragino Sans GB", "Source Han Sans SC VF", "Source Han Sans SC",
+      "Noto Sans CJK SC", "Microsoft YaHei UI", "Microsoft YaHei",
+      "WenQuanYi Micro Hei", sans-serif, "Microsoft Uighur";
+    --code-font-family: JetBrainsMono, monospace, "Hiragino Sans GB",
+      "Source Han Sans SC VF", "Source Han Sans SC", "Noto Sans CJK SC",
+      "Microsoft YaHei UI", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif,
+      "Microsoft Uighur";
+    --article-font-family: InterVariable, "Helvetica Neue", Helvetica, Arial,
+      "Hiragino Sans GB", "Source Han Sans SC VF", "Source Han Sans SC",
+      "Noto Sans CJK SC", "Microsoft YaHei UI", "Microsoft YaHei",
+      "WenQuanYi Micro Hei", sans-serif, "Microsoft Uighur";
+    font-feature-settings: 'liga' 1, 'calt' 1;
+  }
+</style>
+
+<script>
+  (function () {
+    const preconnect = document.createElement("link");
+    const loadFont = document.createElement("link");
+    preconnect.rel = "preconnect";
+    preconnect.href = "https://rsms.me/";
+    loadFont.rel = "stylesheet";
+    loadFont.href = "https://rsms.me/inter/inter.css";
+    document.head.appendChild(preconnect);
+    document.head.appendChild(loadFont);
+  })();
+</script>

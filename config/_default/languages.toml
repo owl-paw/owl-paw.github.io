@@ -5,12 +5,6 @@ languagedirection = "ltr"
 title = "Eoin Lee's Blog"
 weight = 1
 
-[zh-tw]
-languageName = "繁體中文"
-languagedirection = "ltr"
-title = "Eoin Lee's Blog"
-weight = 1
-
 [en]
 languageName = "English"
 languagedirection = "ltr"
