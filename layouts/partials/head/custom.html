@@ -1,23 +1,16 @@
 <style>
   /* Overwrite CSS variable */
   :root {
-    --sys-font-family: InterVariable, "Helvetica Neue", Helvetica, Arial;
     --zh-font-family: "Hiragino Sans GB", "Source Han Sans SC VF",
       "Source Han Sans SC", "Noto Sans CJK SC", "Microsoft YaHei UI",
-      "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif, "Microsoft Uighur";
-    --base-font-family: InterVariable, "Helvetica Neue", Helvetica, Arial,
-      "Hiragino Sans GB", "Source Han Sans SC VF", "Source Han Sans SC",
-      "Noto Sans CJK SC", "Microsoft YaHei UI", "Microsoft YaHei",
-      "WenQuanYi Micro Hei", sans-serif, "Microsoft Uighur";
-    --code-font-family: JetBrainsMono, monospace, "Hiragino Sans GB",
-      "Source Han Sans SC VF", "Source Han Sans SC", "Noto Sans CJK SC",
-      "Microsoft YaHei UI", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif,
-      "Microsoft Uighur";
-    --article-font-family: InterVariable, "Helvetica Neue", Helvetica, Arial,
-      "Hiragino Sans GB", "Source Han Sans SC VF", "Source Han Sans SC",
-      "Noto Sans CJK SC", "Microsoft YaHei UI", "Microsoft YaHei",
-      "WenQuanYi Micro Hei", sans-serif, "Microsoft Uighur";
-    font-feature-settings: 'liga' 1, 'calt' 1;
+      "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+    --base-font-family: InterVariable, var(--sys-font-family),
+      var(--zh-font-family), sans-serif, "Noto Color Emoji";
+    --code-font-family: Menlo, Monaco, Consolas, "Courier New",
+      var(--zh-font-family), monospace;
+    --article-font-family: var(--base-font-family);
+    font-feature-settings: "liga" 1, "calt" 1;
+    font-optical-sizing: auto;
   }
 </style>
 
@@ -30,6 +23,22 @@
     loadFont.rel = "stylesheet";
     loadFont.href = "https://rsms.me/inter/inter.css";
     document.head.appendChild(preconnect);
+    document.head.appendChild(loadFont);
+  })();
+  (function () {
+    const preconnect1 = document.createElement("link");
+    const preconnect2 = document.createElement("link");
+    const loadFont = document.createElement("link");
+    preconnect1.rel = "preconnect";
+    preconnect1.href = "https://fonts.googleapis.com";
+    preconnect2.rel = "preconnect";
+    preconnect2.href = "https://fonts.gstatic.com";
+    preconnect2.crossOrigin = "anonymous";
+    loadFont.rel = "stylesheet";
+    loadFont.href =
+      "https://fonts.googleapis.com/css2?family=Noto+Color+Emoji&display=swap";
+    document.head.appendChild(preconnect1);
+    document.head.appendChild(preconnect2);
     document.head.appendChild(loadFont);
   })();
 </script>
