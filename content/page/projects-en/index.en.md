@@ -1,5 +1,6 @@
 ---
 title: Projects
+slug: "projects"
 links:
   - title: OI Jumper
     description: Jumping to various online judges with one webpage.

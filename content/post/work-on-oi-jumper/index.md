@@ -3,7 +3,7 @@ title: 旧好重拾觅新知：简述 OI Jumper 的开发之路
 description: 我在 Google Gemini 的帮助下用 Tailwind CSS 完成并部署了前端项目「OI Jumper」。
 slug: work-on-oi-jumper
 date: 2024-05-10 20:00:00+0800
-image: banner.jpg
+image: banner.webp
 toc: false
 categories:
     - dev

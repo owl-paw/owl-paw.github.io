@@ -1,7 +1,7 @@
 ---
 title: 题解
 description: 为 OI 之海上的旅人找到解题的方向
-image: 'editorial.jpg'
+image: 'editorial.webp'
 
 # Badge style
 style:

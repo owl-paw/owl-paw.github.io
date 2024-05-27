@@ -1,7 +1,7 @@
 ---
 title: 笔记
 description: 学习过程中的点点滴滴
-image: 'notes.jpg'
+image: 'notes.webp'
 
 # Badge style
 style:

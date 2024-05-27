@@ -3,7 +3,7 @@ title: "Revisit the Dusted, Discover the New: On the Development of OI Jumper"
 description: How I built an entire front-end project with Tailwind CSS and the help of Google Gemini.
 slug: work-on-oi-jumper
 date: 2024-05-10 20:00:00+0800
-image: banner.jpg
+image: banner.webp
 toc: false
 categories:
   - dev

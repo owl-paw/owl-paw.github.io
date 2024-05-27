@@ -1,5 +1,6 @@
 ---
-title: Projects
+title: "项目"
+slug: "projects"
 links:
   - title: OI Jumper
     description: 信息学算法竞赛的聚合跳题工具
@@ -9,7 +10,7 @@ links:
     website: https://music.eoin.blog/
 menu:
   main:
-    weight: 5
+    weight: 4
     params:
       icon: bulb
 comments: false

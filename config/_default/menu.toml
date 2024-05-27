@@ -22,3 +22,11 @@ url = "https://twitter.com/eoinlee"
 
 [social.params]
 icon = "brand-twitter"
+
+[[social]]
+identifier = "youtube"
+name = "YouTube"
+url = "https://www.youtube.com/@eoinleeee"
+
+[social.params]
+icon = "brand-youtube"

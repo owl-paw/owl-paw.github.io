@@ -1,7 +1,7 @@
 ---
 title: Development
 description: Records of my fumbling through the world of software engineering.
-image: 'dev.jpg'
+image: 'dev.webp'
 
 # Badge style
 style:

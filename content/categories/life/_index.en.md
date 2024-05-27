@@ -1,7 +1,7 @@
 ---
 title: Life
 description: The most heartfelt sentiments come from the truest experiences of life.
-image: 'life.jpg'
+image: 'life.webp'
 
 # Badge style
 style:
