@@ -2,6 +2,10 @@
     You can add your own custom styles here.
 */
 
+:root[lang='en'] {
+  --article-line-height: 1.65;
+}
+
 details > summary {
   cursor: pointer;
   padding-top: 1rem;
