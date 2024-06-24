@@ -11,3 +11,15 @@ details > summary {
   padding-top: 1rem;
   padding-bottom: 1rem;
 }
+
+[data-scheme="dark"] {
+  span.text-highlight {
+    color: yellow;
+  }
+}
+
+[data-scheme="light"] {
+  span.text-highlight {
+    color: red;
+  }
+}
