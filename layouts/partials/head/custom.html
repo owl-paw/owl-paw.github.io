@@ -1,46 +1,38 @@
 <style>
   /* Overwrite CSS variable */
   :root {
-    --zh-font-family: "Source Han Sans SC VF", "Source Han Sans SC",
-      "Noto Sans CJK SC", "Microsoft YaHei UI", "Microsoft YaHei",
-      "WenQuanYi Micro Hei", sans-serif;
-    --base-font-family: InterVariable, var(--sys-font-family),
+    --zh-font-family: "Hiragino Sans GB", "Source Han Sans SC VF",
+      "Source Han Sans SC", "Noto Sans CJK SC", "Microsoft YaHei UI",
+      "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+    --base-font-family: "Nunito Sans", var(--sys-font-family),
       var(--zh-font-family), sans-serif, "Noto Color Emoji";
     --code-font-family: Menlo, Monaco, Consolas, "Courier New",
       var(--zh-font-family), monospace;
     --article-font-family: var(--base-font-family);
-    font-feature-settings:
-      "liga" 1,
-      "calt" 1;
     font-optical-sizing: auto;
   }
 </style>
 
 <script>
   (function () {
-    const preconnect = document.createElement("link");
-    const loadFont = document.createElement("link");
-    preconnect.rel = "preconnect";
-    preconnect.href = "https://rsms.me/";
-    loadFont.rel = "stylesheet";
-    loadFont.href = "https://rsms.me/inter/inter.css";
-    document.head.appendChild(preconnect);
-    document.head.appendChild(loadFont);
-  })();
-  (function () {
     const preconnect1 = document.createElement("link");
     const preconnect2 = document.createElement("link");
-    const loadFont = document.createElement("link");
+    const loadFont1 = document.createElement("link");
+    const loadFont2 = document.createElement("link");
     preconnect1.rel = "preconnect";
     preconnect1.href = "https://fonts.googleapis.com";
     preconnect2.rel = "preconnect";
     preconnect2.href = "https://fonts.gstatic.com";
     preconnect2.crossOrigin = "anonymous";
-    loadFont.rel = "stylesheet";
-    loadFont.href =
+    loadFont1.rel = "stylesheet";
+    loadFont1.href =
       "https://fonts.googleapis.com/css2?family=Noto+Color+Emoji&display=swap";
+    loadFont2.rel = "stylesheet";
+    loadFont2.href =
+      "https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap";
     document.head.appendChild(preconnect1);
     document.head.appendChild(preconnect2);
-    document.head.appendChild(loadFont);
+    document.head.appendChild(loadFont1);
+    document.head.appendChild(loadFont2);
   })();
 </script>
