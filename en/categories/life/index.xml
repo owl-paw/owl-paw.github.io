@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Life on Eoin Lee's Blog</title><link>https://eoin.blog/en/categories/life/</link><description>Recent content in Life on Eoin Lee's Blog</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Fri, 10 May 2024 20:00:00 +0800</lastBuildDate><atom:link href="https://eoin.blog/en/categories/life/index.xml" rel="self" type="application/rss+xml"/><item><title>Revisit the Dusted, Discover the New: On the Development of OI Jumper</title><link>https://eoin.blog/en/p/work-on-oi-jumper/</link><pubDate>Fri, 10 May 2024 20:00:00 +0800</pubDate><guid>https://eoin.blog/en/p/work-on-oi-jumper/</guid><description>&lt;img src="https://eoin.blog/p/work-on-oi-jumper/banner.webp" alt="Featured image of post Revisit the Dusted, Discover the New: On the Development of OI Jumper" />&lt;style type="text/css">
+[data-scheme='light'] {
+.notice {
+--title-color: #fff;
+--title-background-color: #6be;
+--content-color: #444;
+--content-background-color: #e7f2fa;
+}
+.notice.info {
+--title-background-color: #fb7;
+--content-background-color: #fec;
+}
+.notice.tip {
+--title-background-color: #5a5;
+--content-background-color: #efe;
+}
+.notice.warning {
+--title-background-color: #c33;
+--content-background-color: #fee;
+}
+}
+[data-scheme='dark'] {
+.notice {
+--title-color: #fff;
+--title-background-color: #069;
+--content-color: #ddd;
+--content-background-color: #023;
+}
+.notice.info {
+--title-background-color: #a50;
+--content-background-color: #420;
+}
+.notice.tip {
+--title-background-color: #363;
+--content-background-color: #121;
+}
+.notice.warning {
+--title-background-color: #800;
+--content-background-color: #400;
+}
+}
+body.dark .notice {
+--title-color: #fff;
+--title-background-color: #069;
+--content-color: #ddd;
+--content-background-color: #023;
+}
+body.dark .notice.info {
+--title-background-color: #a50;
+--content-background-color: #420;
+}
+body.dark .notice.tip {
+--title-background-color: #363;
+--content-background-color: #121;
+}
+body.dark .notice.warning {
+--title-background-color: #800;
+--content-background-color: #400;
+}
+.notice {
+padding: 18px;
+line-height: 24px;
+margin-bottom: 24px;
+border-radius: 4px;
+color: var(--content-color);
+background: var(--content-background-color);
+}
+.notice p:last-child {
+margin-bottom: 0
+}
+.notice-title {
+margin: -18px -18px 12px;
+padding: 4px 18px;
+border-radius: 4px 4px 0 0;
+font-weight: 700;
+color: var(--title-color);
+background: var(--title-background-color);
+}
+.icon-notice {
+display: inline-flex;
+align-self: center;
+margin-right: 8px;
+}
+.icon-notice img,
+.icon-notice svg {
+height: 1em;
+width: 1em;
+fill: currentColor;
+}
+.icon-notice img,
+.icon-notice.baseline svg {
+top: .125em;
+position: relative;
+}
+&lt;/style>&lt;div class="notice note" >
+&lt;p class="notice-title">
+&lt;span class="icon-notice baseline">
+&lt;svg xmlns="http://www.w3.org/2000/svg" viewBox="0 128 300 300">
+&lt;path d="M150 128c82.813 0 150 67.188 150 150 0 82.813-67.188 150-150 150C67.187 428 0 360.812 0 278c0-82.813 67.188-150 150-150Zm25 243.555v-37.11c0-3.515-2.734-6.445-6.055-6.445h-37.5c-3.515 0-6.445 2.93-6.445 6.445v37.11c0 3.515 2.93 6.445 6.445 6.445h37.5c3.32 0 6.055-2.93 6.055-6.445Zm-.39-67.188 3.515-121.289c0-1.367-.586-2.734-1.953-3.516-1.172-.976-2.93-1.562-4.688-1.562h-42.968c-1.758 0-3.516.586-4.688 1.563-1.367.78-1.953 2.148-1.953 3.515l3.32 121.29c0 2.734 2.93 4.882 6.64 4.882h36.134c3.515 0 6.445-2.148 6.64-4.883Z"/>
+&lt;/svg>
+&lt;/span>Note&lt;/p>&lt;p>This article is translated from the original version in Chinese by the author himself. Although AI tools are used to double-check my writing, I request you to bear with any possible grammar or wording errors.&lt;/p>&lt;/div>
+&lt;p>Honestly, I do not expect anyone to have heard of &lt;a class="link" href="https://oi-jumper.eoin.blog" target="_blank" rel="noopener"
+>OI Jumper&lt;/a> by the time this article is being written. It is a competitive programming tool I have developed over the previous two months or so. Its mechanism is fairly simple. You open up the page, select the online judging platform you need, enter the problem ID or the problem name, press Enter or click on the corresponding button, and then a new tab will be automatically pulled up that directs you to the webpage of your targeted problem. I know it&amp;rsquo;s not unusual for an online judging platform to have already supported the problem jumping mechanism, but if all the problems you want to solve are scattered on multiple platforms, it would be tiresome to repeatedly open up homepages of those platforms to search for problems specifically on their sites, and that&amp;rsquo;s where OI Jumper comes into play. If you haven&amp;rsquo;t used this tool, try it out now at the link above! Arigato gozaimasu!&lt;/p>
+&lt;p>OI Jumper is an open source project, whose source code is made public in &lt;a class="link" href="https://github.com/eoinli/oi-jumper" target="_blank" rel="noopener"
+>its GitHub repository&lt;/a>, and the webpage is hosted on Vercel. If you have any ideas or suggestions about this project, it&amp;rsquo;s appreciated to create an issue or pull a request to make a contribution!&lt;/p>
+&lt;h2 id="the-beginning">The Beginning
+&lt;/h2>&lt;p>Not so long ago, I discovered an editor theme for Typora named Tailwind on its official theme gallery. Curiosity drove me to search for the term on the web, on which I first encountered the wonderful framework known as &lt;a class="link" href="https://tailwindcss.com/" target="_blank" rel="noopener"
+>Tailwind CSS&lt;/a>. I was thrilled to be able to create fantastic CSS simply by adding class names to HTML elements without having to code the styles myself. Instantly I took a liking to the framework, and my fondness even grew stronger when I came across other websites that were also coded with Tailwind CSS. Despite my fondness, however, I hadn&amp;rsquo;t encountered any case in which I would have an excuse to actually learn the framework or to apply it to a project for a prolonged period of time.&lt;/p>
+&lt;p>Things changed when I started grinding hard on CP problems, as scheduled problems were all aggregated from various online judging platforms, which gradually became a problem for me as a nerd who splits the computer screen into two sides with the code editor on the left and the browser on the right. &amp;ldquo;Why don&amp;rsquo;t I develop a tool to help me quickly visit problems hosted on different platforms?&amp;rdquo; I figured. And upon this thought, the concept of a project that would be called OI Jumper came to my mind. However, it had been more than three years since I paused learning program engineering and started working on competitive programming, and web development was something that I hadn&amp;rsquo;t spared a thought about for an even longer period. It would be difficult for me to pick up all that I had learned about front-end programming in a short time, which placed a heavy obstacle on the continuation of this project. It was at this time that Tailwind CSS, the thing that had been kept in my mind for ages, hit my brain, as it might be able to help me simplify the development workflow and get things done more quickly.&lt;/p>
+&lt;p>It was April 2024, and diverse arrays of free AI tools had already taken over the Internet. And since Tailwind CSS originated before the era of AI, it would be a good idea for me to reach out to AI tools for help as I find my way through web development powered by the framework. Then I immediately pulled up Google Gemini and the official documentation of Tailwind CSS to read.&lt;/p>
+&lt;h2 id="the-development">The Development
+&lt;/h2>&lt;p>I am not a fan of formal product documentation, which had me turn to Gemini for help moments after setting up the environment and initializing the project. It was after two days of coding that I created and pushed &lt;a class="link" href="https://github.com/eoinli/oi-jumper/commit/f52eafa3c88ca313e63db702eef51a208d1dc6d3" target="_blank" rel="noopener"
+>my first Git commit&lt;/a> to the project. As the page was deployed, upon seeing the result webpage, I found myself in a profound sense of achievement. By this time, the tool was already capable of basic problem jumping to three platforms, with dark mode implemented for the first time in my life.&lt;/p>
+&lt;p>But, this wouldn&amp;rsquo;t be enough for such a promising tool like this. In the following two weeks, the site gradually supported more platforms, and then I felt like something more needed to be added. More than often, I am only given titles of the problems I need to solve, rather than the numeral or alphabetical IDs. It would still be required for me to reach the platform&amp;rsquo;s homepage to get to the search page and search for the problem. This made me want to add a problem search feature to my tool.&lt;/p>
+&lt;p>My first attempt at implementing the search mechanism was targeted at one specific platform that you may or may not have heard of, Luogu. It&amp;rsquo;s pretty much unarguably the biggest CP community in China Mainland, and its problem search mechanism works by piecing the search term into a URL, which is sent to the server and returned with a JSON message containing the search results. I first tried to simulate the sending of a formed URL, which boils down to a web request to the server, and parse the returned JSON message to get the results displayed on my website. It seems like a nice idea at first, but implementing this idea would eventually take the most time during the entire development process. The first of the many troubles I encountered, was the Same-Origin Policy that has been implemented since the early days of modern web browsers, which blocked my JavaScript code from reading the response from Luogu&amp;rsquo;s server. This was my first encounter with issues concerning network safety, therefore I had no choice but to search online and turn to Gemini for help. The issue was temporarily worked around by using a third-party CORS proxy server to access the intended data. After that, my poor aesthetics and CSS skills became another problem as I kept failing to satisfy myself with the styles I had written for displaying search results. Eventually, these difficulties pushed me to the edge of giving up the searching feature entirely, and my uncompleted code rested on the website for a good 4 days. During those 96 hours, I managed to come up with a solution that ultimately succeeded in getting the search mechanism to work. The solution was simply to rethink the whole thing. As opposed to scraping data from Luogu&amp;rsquo;s server, it would be a better yet simpler idea to just jump to the search page of the platform. Regardless, it still fulfilled the purpose of eliminating the need to load the homepage before getting to search for a problem. Additionally, redoing the mechanism also simplified the support of problem searching for other online judging platforms.&lt;/p>
+&lt;h2 id="the-maintainance">The Maintainance
+&lt;/h2>&lt;p>I used to only use the traditional CSS Positioning way to place the elements, as I hadn&amp;rsquo;t learned of styling with the CSS flexbox environment before the site was built, and it had been on my mind for years as I eagerly wanted to get a taste of it and how much convenience it would bring to my development workflow. If you happen to also be unfamiliar with CSS flexbox, I highly recommend &lt;a class="link" href="https://www.joshwcomeau.com/css/interactive-guide-to-flexbox/" target="_blank" rel="noopener"
+>the tutorial by Josh W. Comeau&lt;/a>.&lt;/p>
+&lt;p>The next thing that took me a bunch of time was responsive design. It was also something that I had aimed to try out but somehow had never got a chance to implement, yet I&amp;rsquo;d still been urged to feature this design in one, if any, of my projects. I doubt if any overzealous (no offense) person would like to solve CP problems on mobile devices, but thankfully this project gave me a reason to finally start the long-awaited learning process of how I can feature more &amp;ldquo;humanitarianism&amp;rdquo; in my projects, if you will. Surprisingly enough, Tailwind CSS allowed me to design my webpage responsively with ease, as the concept is already baked into its native support. I worked out the code for narrower display areas within two days, then excitedly committed it to the repository.&lt;/p>
+&lt;p>There is an interesting feature often seen in some other Chinese websites, which is &lt;strong>Hitokoto&lt;/strong> (meaning &amp;ldquo;a sentence&amp;rdquo; or &amp;ldquo;a quote&amp;rdquo; in Japanese) and I would like to add it to my site as well. Every time a request is sent, the API returns a quote in Chinese from a random corner of the world, with candidates from literary works, online comments, and many other sources. The problem, however, was the JSON response from the API was, again, blocked due to the Same-Origin policy. Thanks to the previous knowledge I have gained from attempting to embed search results into my webpage, I currently know one solution to this issue that happens to be applicable to this specific API, which is &lt;a class="link" href="https://en.wikipedia.org/wiki/JSONP" target="_blank" rel="noopener"
+>&lt;strong>JSONP&lt;/strong>&lt;/a>, short for &lt;strong>JSON with Padding&lt;/strong>. In spite of the fact that after further research I&amp;rsquo;ve done while writing this article, I have realized that JSONP is currently not the mainstream approach to resolving CORS problems, I am still glad to have learned of this tip-of-the-iceberg piece of knowledge about network safety.&lt;/p>
+&lt;p>OI Jumper will receive less frequent updates as long as there are no other features I would like to add to my site or platforms I need to support. This project is none other than a simple front-end project, but it also serves as a medium for practice as I gradually resume my regular web development. Much has been reviewed, and more importantly, learned, during the days I&amp;rsquo;ve worked on this project, which will hopefully do me a lot of favor in future project engineering.&lt;/p>
+&lt;h2 id="the-reflections">The Reflections
+&lt;/h2>&lt;p>Enough with the litany of my overexaggerated emotions and overly monotonous narrative. Time for some (possibly) serious stuff that comes from my mind in hindsight of this experience.&lt;/p>
+&lt;p>A renowned former CP contestant in China, Li Xinlong, once commented on Luogu, criticizing the platform&amp;rsquo;s regulation on suppressing AI-generated content in its community because of its claim that AI-related information is irrelevant to competitive programming:&lt;/p>
+&lt;blockquote>
+&lt;p>This is a total lockdown! You&amp;rsquo;ll realize that AI is relevant [to competitive programming] by the time it eliminates the need for even hosting algorithmic programming competitions and kicks the asses of all of us CP contestants!!!&lt;/p>
+&lt;/blockquote>
+&lt;p>That very time could be on its way, but as in the present-day field of competitive programming, it&amp;rsquo;s &lt;strong>human&lt;/strong> contestants that are competing against each other with our minds and intelligence, so AI tools can only assist us in the learning process. In this sense, Luogu&amp;rsquo;s regulation is kind of aggressive, but it&amp;rsquo;s not unacceptable, since Luogu is none other than a platform made for humans, not AI generators.&lt;/p>
+&lt;p>Yet from this time&amp;rsquo;s development experience I&amp;rsquo;ve gained, I would say that, in the generic field of programming, the intervention of AI tools doesn&amp;rsquo;t necessarily mean human programmers would be replaced. On one hand, LLMs trained upon zettabytes, even yottabytes of data can help programming greenhands like me to learn, pushing the process to be more efficient and fruitful. On the other hand, even for people who are already programmers, AI acts as a tool that helps with debugging and optimization of programs. Compared to programmed automata, AI encapsulates higher intelligence, which makes it ideal for optimizing the work on dull, redundant, or repetitive jobs during development. But AI still has a very long way to go, if it will ever replace human brains. AI creations are based on human-generated content from the past of civilization, but when it comes to innovation, only human minds can break through the barriers of conventional thinking and make our way into the future.&lt;/p>
+&lt;p>We toughen our minds through algorithmic competitions, which ultimately contributes to the innovation and advancement of science and technology. I thus conclude that AI tools can only help us save some time while getting a better hold of past knowledge, and &lt;strong>WE&lt;/strong> are the ones who will have to utilize the knowledge to build our future. In other words, over the time AI has saved for us, we humans will need to consider more about our present and future, in order for the race of humanity to prosper and grow.&lt;/p></description></item></channel></rss>

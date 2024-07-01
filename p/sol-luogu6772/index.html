@@ -1,0 +1,254 @@
+<!doctype html><html lang=zh-cn dir=ltr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><meta name=description content="来自 NOI 2020 的一道 DP 优化好题。"><title>「美食家」题解</title>
+<link rel=canonical href=https://eoin.blog/p/sol-luogu6772/><link rel=stylesheet href=/scss/style.min.5b67378878f34609120600e0f03f54ef00673042fa6572b2d4d38069dbfb89a6.css><meta property='og:title' content="「美食家」题解"><meta property='og:description' content="来自 NOI 2020 的一道 DP 优化好题。"><meta property='og:url' content='https://eoin.blog/p/sol-luogu6772/'><meta property='og:site_name' content="Eoin Lee's Blog"><meta property='og:type' content='article'><meta property='article:section' content='Post'><meta property='article:tag' content='动态规划'><meta property='article:tag' content='线性代数'><meta property='article:published_time' content='2024-06-24T00:00:00+08:00'><meta property='article:modified_time' content='2024-06-24T00:00:00+08:00'><meta name=twitter:title content="「美食家」题解"><meta name=twitter:description content="来自 NOI 2020 的一道 DP 优化好题。"><link rel="shortcut icon" href=/favicon.jpg><style>:root{--zh-font-family:"PingFang SC", "Source Han Sans SC VF",
+      "Source Han Sans SC", "Noto Sans CJK SC", "Microsoft YaHei UI",
+      "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;--base-font-family:var(--sys-font-family), var(--zh-font-family),
+      sans-serif, "Noto Color Emoji";--code-font-family:Menlo, Monaco, Consolas, "Courier New",
+      var(--zh-font-family), monospace;--article-font-family:var(--base-font-family);font-optical-sizing:auto}</style><script>(function(){const t=document.createElement("link"),e=document.createElement("link"),n=document.createElement("link");t.rel="preconnect",t.href="https://fonts.googleapis.com",e.rel="preconnect",e.href="https://fonts.gstatic.com",e.crossOrigin="anonymous",n.rel="stylesheet",n.href="https://fonts.googleapis.com/css2?family=Noto+Color+Emoji&display=swap",document.head.appendChild(t),document.head.appendChild(e),document.head.appendChild(n)})()</script></head><body class=article-page><script>(function(){const e="StackColorScheme";localStorage.getItem(e)||localStorage.setItem(e,"auto")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky"><button class="hamburger hamburger--spin" type=button id=toggle-menu aria-label=切换菜单>
+<span class=hamburger-box><span class=hamburger-inner></span></span></button><header><figure class=site-avatar><a href=/><img src=/img/avatar_hu13c40bb6d89fba0f45d34b039ac03ece_1893705_300x0_resize_q75_box.jpeg width=300 height=301 class=site-logo loading=lazy alt=Avatar>
+</a><span class=emoji>🇨🇳</span></figure><div class=site-meta><h1 class=site-name><a href=/>Eoin Lee's Blog</a></h1><h2 class=site-description>Collection of my everyday random thoughts.</h2></div></header><ol class=menu-social><li><a href=https://github.com/eoinli target=_blank title=GitHub rel=me><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6.0 00-1.3-3.2 4.2 4.2.0 00-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3.0 00-6.2.0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2.0 00-.1 3.2A4.6 4.6.0 004 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg></a></li><li><a href=https://twitter.com/eoinlee target=_blank title=Twitter rel=me><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-twitter" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M22 4.01c-1 .49-1.98.689-3 .99-1.121-1.265-2.783-1.335-4.38-.737S11.977 6.323 12 8v1c-3.245.083-6.135-1.395-8-4 0 0-4.182 7.433 4 11-1.872 1.247-3.739 2.088-6 2 3.308 1.803 6.913 2.423 10.034 1.517 3.58-1.04 6.522-3.723 7.651-7.742a13.84 13.84.0 00.497-3.753C20.18 7.773 21.692 5.25 22 4.009z"/></svg></a></li><li><a href=https://www.youtube.com/@eoinleeee target=_blank title=YouTube rel=me><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-brand-youtube"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M2 8a4 4 0 014-4h12a4 4 0 014 4v8a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/><path d="M10 9l5 3-5 3z"/></svg></a></li></ol><ol class=menu id=main-menu><li><a href=/><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>
+<span>主页</span></a></li><li><a href=/archives/><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><rect x="3" y="4" width="18" height="4" rx="2"/><path d="M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+<span>归档</span></a></li><li><a href=/search/><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15" y2="15"/></svg>
+<span>搜索</span></a></li><li><a href=/projects/><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-bulb"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 12h1m8-9v1m8 8h1M5.6 5.6l.7.7m12.1-.7-.7.7"/><path d="M9 16a5 5 0 116 0 3.5 3.5.0 00-1 3 2 2 0 01-4 0 3.5 3.5.0 00-1-3"/><path d="M9.7 17h4.6"/></svg>
+<span>项目</span></a></li><li><a href=/friends/><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M10 14a3.5 3.5.0 005 0l4-4a3.5 3.5.0 00-5-5l-.5.5"/><path d="M14 10a3.5 3.5.0 00-5 0l-4 4a3.5 3.5.0 005 5l.5-.5"/></svg>
+<span>友链</span></a></li><li class=menu-bottom-section><ol class=menu><li id=i18n-switch><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 5h7"/><path d="M9 3v2c0 4.418-2.239 8-5 8"/><path d="M5 9c-.003 2.144 2.952 3.908 6.7 4"/><path d="M12 20l4-9 4 9"/><path d="M19.1 18h-6.2"/></svg>
+<select name=language title=language onchange="window.location.href=this.selectedOptions[0].value"><option value=https://eoin.blog/ selected>简体中文</option><option value=https://eoin.blog/en/>English</option></select></li><li id=dark-mode-toggle><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="8" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="16" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<span>暗色模式</span></li></ol></li></ol></aside><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title">目录</h2><div class=widget--toc><nav id=TableOfContents><ol><li><a href=#暴力部分分>暴力部分分</a></li><li><a href=#矩阵优化的引入>矩阵优化的引入</a></li><li><a href=#矩阵优化的推广>矩阵优化的推广</a></li><li><a href=#额外因素的考虑>额外因素的考虑</a></li><li><a href=#最后一公里>最后一公里</a></li><li><a href=#代码>代码</a></li></ol></nav></div></section></aside><main class="main full-width"><article class=main-article><header class=article-header><div class=article-details><header class=article-category><a href=/categories/editorial/ style=background-color:#7469b6;color:#fff>题解</a></header><div class=article-title-wrapper><h2 class=article-title><a href=/p/sol-luogu6772/>「美食家」题解</a></h2><h3 class=article-subtitle>来自 NOI 2020 的一道 DP 优化好题。</h3></div><footer class=article-time><div><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>
+<time class=article-time--published>Jun 24, 2024</time></div><div><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<time class=article-time--reading>阅读时长: 8 分钟</time></div></footer></div></header><section class=article-content><ul><li>出处：NOI 2020</li><li>题面与评测地址：<a class=link href=https://www.luogu.com.cn/problem/P6772 target=_blank rel=noopener>洛谷 P6772</a> & <a class=link href=https://loj.ac/p/3339 target=_blank rel=noopener>LibreOJ #3339</a></li><li>参考题解：<a class=link href=https://www.cnblogs.com/Plozia/p/16773840.html target=_blank rel=noopener>By Plozia</a></li></ul><h2 id=暴力部分分>暴力部分分</h2><p>先考虑朴素做法如何实现。根据题目的设问方式可以发现，这道题需要用到动态规划进行解决。于是我们可以设计这样一个状态：$f_{t, v}$，它表示第 $t$ 天走到了城市 $v$ 时所能持有的最大愉悦值。令图中起点为 $u$、终点为 $v$、耗时为 $w$ 的有向边为 $(u, v, w)$，则该状态的转移满足：</p><p>$$
+f_{t, v} = \max_{(u, v, w) \in E} \left\lbrace f_{t - w, u} \right\rbrace + c_v + \text{fest}_{t, v}
+$$</p><p>其中，$\text{fest}_{t, v}$ 为在第 $t$ 天城市 $v$ 所举办的美食节的加成。若这一天在这座城市没有美食节举办，该值等于 $0$。当然，实际编码时还要考虑 $i - w$ 不小于 $1$ 等等问题，这里就不详述了。仅仅是这样暴力的 $\mathcal{O}\left (Tn\right )$ 复杂度的 DP，也可以拿到 40 分，这充分说明了好好打部分分的重要性 😮</p><h2 id=矩阵优化的引入>矩阵优化的引入</h2><p>假设现在所有边的边权 $w$ 均为 $1$，且暂时不考虑美食节的影响，即 $k = 0$。那么原问题简化为：在一个 $n$ 点 $m$ 边的图中，恰好经过 $p$ 条边的最长路。沿用此前的转移，我们有：</p><p>$$
+\begin{aligned}
+f_{t, v} &= \max \left\lbrace f_{t - w, u} \right\rbrace + c_v + \text{fest} _ {t, v} \newline
+&= \max \left\lbrace f_{t - 1, u} \right\rbrace + c_v \newline
+&= \max \left\lbrace f_{t - 1, u} + c_v \right\rbrace
+\end{aligned}
+$$</p><p>这里的 $c_v$ 可看作是每个点的点权，考虑将其转化为边权，令 $d_{u, v}$ 表示起点为 $u$、终点为 $v$ 的边中，终点 $v$ 的愉悦值 $c_v$。那么上式就可以写为</p><p>$$
+f_{t, v} = \max\left\lbrace f_{t - 1, u} + d_{u, v} \right\rbrace
+$$</p><p>你可能会发现，这样的形式与矩阵乘法有些相似——两个 $f$ 的第一项都与 $t$ 相关，后面的 $f$ 的第二项与 $d$ 的第一项相同，前面的 $f$ 的第二项与 $d$ 的第二项相同，就像一个 $(t - 1) \times u$ 的矩阵在跟一个 $u \times v$ 的矩阵做乘法，得到了一个 $t \times u$ 的矩阵。于是，我们尝试将上述形式推广成一个更通用的结论。</p><p>定义一种矩阵运算 $\otimes$。若有 $A \otimes B = C$，则 $A$ 的列数和 $B$ 的行数相同，$C$ 的行数与 $A$ 相同，列数与 $B$ 相同，且对矩阵 $C$ 中的每一个元素，都有：$C_{i, j} = \max\left\lbrace A_{i, k} + B_{k, j} \right\rbrace$。根据取最大值 $\max$ 运算的结合律，可以证明，该运算同样满足结合律。</p><p>由于图中点的数量是固定的，所以 $d$ 可以视为一个行列数相等的矩阵，又由于 $\otimes$ 运算具有结合律，因此 $d$ 可以通过对数复杂度的「矩阵快速幂」（但其中的「乘法」实际上是 $\otimes$ 运算）进行迭代。在这样的观点下，我们可以将 $f_t$ 视为一个行向量，其每一个元素为 $f_{t, v}$，并得到一个非常神奇 ✨ 的转移方程：</p><p>$$
+f_t = f_0 \otimes d^t
+$$</p><p>下面用人话来解释一下这个方程的意思：</p><blockquote><p>根据我们刚才定义的运算所具有的性质，我们可以将同一类 $d$ 的，从初始状态 $t_0 = 0$ 到特定状态 $t$ 的贡献累积起来，但该操作是通过反复进行 $\otimes$ 运算，用「矩阵快速幂」的形式将转移本身优化为 $\mathcal{O}(\log t)$ 复杂度，由此计算出 $d^t$ 来实现的。接下来，我们再通过一次 $\otimes$ 运算将计算出来的贡献叠加到初始状态 $f_0$ 上，由此获得 $f_t$ 的状态。</p><p>由于 $f$ 是行向量，其行数可视为 $1$，列数可视为元素数 $n$；而 $d$ 为 $n \times n$ 矩阵，所以 $f_0 \otimes d^t$ 所得到的结果的行数依然为 $1$，列数依然为 $n$，也就依然符合 $f$ 的行向量的形式。</p></blockquote><p>我们可以很容易地根据 $c$ 数组构建 $d$ 矩阵（没有边相连的地方，值为 $-\infty$），那么现在的任务就是确定初始状态 $f_0$ 实际上应该是什么了。考虑 $f$ 的定义：$f_{t, v}$ 表示第 $t$ 天走到了城市 $v$ 时所能持有的最大愉悦值。由题目可知，主人公最初（第 $0$ 天）在城市 $1$，根据数据范围，第 $0$ 天不会有美食节（$1 \leqslant t_i \leqslant 10^9$），所以 $f_0$ 的元素中只有一个有值，即 $f_{0, 1} = c_1$，其他地方的值都是 $-\infty$。</p><h2 id=矩阵优化的推广>矩阵优化的推广</h2><p>还记得吗？上一小节里的推导都是基于 $w = 1$ 的前提的。而题目中 $w$ 的值可能在 $[1, 5]$ 之间变化，所以我们还需要思考如何将原来的结论应用到题目中来。当 $w = 1$ 时，我们对 $d$ 重复进行的 $\otimes$ 运算，本质上是以 $w = 1$ 为单位在对贡献进行叠加。或者说，如果 $w \in [1, 5]$，我们可以考虑将这些边权拆成 $1$ 到 $5$ 条 $w = 1$ 的边，在原有的这条边的起点和终点之间再加入 $w - 1$ 个点来承接这些新加的边，再将其贡献进行叠加。说白了就是，如果将此前我们推导时使用的 $d$ 写成 $d^1$，那么现在一条边权为 $w$ 的边的贡献就是 $d^w$，只是我们将指数 $w$ 掺到了整体的指数里进行计算。</p><p>不过这样拆有个小问题。极端情况下，对于所有的 $m_{\max} = 501$ 条边，每一条边的边权都为 $w_{\max} = 5$，那么就需要新增 $\left (w_{\max} - 1 \right ) m_{\max} = 2004$ 个点。别忘了我们所需要用到的矩阵快速幂中，对一个具有 $n$ 点的图的邻接矩阵执行矩阵乘法本身也是具有 $\mathcal{O}(n^3)$ 的复杂度的！假如我们的点数总共为 $\left[ n_{\max} + \left( w_{\max} - 1 \right) m \right] _ {\max} = 2054$，那么光执行一次矩阵乘法就已经要超时了。有没有一种拆分的方法能够较小地影响实际的点数呢？</p><p>我们考虑这样一种拆法：将每一个点拆成 $w$ 个点，这些点之间都用一条边权为 $0$ 的边连接。<span class=text-highlight>
+对于每一条边 $(u, v, w)$，让 $u$ 拆出来的第 $w$ 个点 $u_w$ 与 $v$ 拆出来的第一个点 $v_1$ 之间用一条边权为 $w$ 的边相连。
+</span>这样做，首先只会用到 $w_{\max}n = 5n$ 个点（由于每条边的 $w \in [1, 5]$，$u$ 拆出来每个点上都可能有向其他点的连边，所以总共的点数其实就是钉死了的 $5n$），至少让矩阵乘法的复杂度降到了一个可以控制的范围。至于这样做为什么正确，其实就是利用了此前就已经明确的「无论指数是多少最后都会揉到一起去」的观点，并且无论指数是多少所经过的转移都恰好是 $w$ 步。</p><p>这样，我们就成功将推得的结论应用到了 $w \in [1, 5]$ 的情况。摆在我们面前的难题越来越少了！</p><h2 id=额外因素的考虑>额外因素的考虑</h2><p>别忘了还有「美食节」这一设定！回收伏笔啦！我们要想办法将美食节的贡献加入我们现有的体系中，该如何做呢？首先可以肯定的是，美食节显然没有办法直接加入我们的矩阵转移，因为美食节的时间地点和贡献大小都是不确定的。但是我们可以根据美食节的具体信息，在转移过程中修改对应时间、城市的贡献值。</p><p>由于转移过程是根据 $t$ 从小到大进行的，所以我们可以将所有美食节 $\left(t, x, y \right)$ 根据 $t$ 进行排序，并在转移时，每次执行「矩阵快速幂」直到下一个美食节发生的时间 $t$，并将这个美食节 $\left(t, x, y \right)$ 的贡献 $y$ 添加到第 $t$ 天的城市 $x$ 上，然后继续通过「矩阵快速幂」从当前时间 $t$ 为起点进行转移。整个过程就像是乘坐游轮，在海上航行的过程就是执行矩阵快速幂来优化转移时间复杂度的过程，而每次靠岸、下船游玩则是在当前位置叠加美食节的贡献的、时间复杂度朴素的过程。</p><h2 id=最后一公里>最后一公里</h2><p>不考虑美食节的情况下，拆点之后，「矩阵乘法」执行一次的复杂度为 $\mathcal{O}(N^3)$，其中 $N = 5n$，所以「矩阵快速幂」的复杂度就为 $\mathcal{O}(N^3 \log T)$。但由于我们在考虑美食节之后，由于将原有的一整个长度为 $\log T$ 的快速幂段分解成了最多 $201$ 个小段（$k_{\max} = 200$），所以实际的复杂度为 $\mathcal{O}\left(N^3 \sum\log\left(t_i - t_{i - 1}\right)\right)$。由于 $N_{\max} = 250$，有 ${N ^ 3}_{\max} = 1.5625 \times 10^7$，再乘上一个 $200$ 很显然依然会超时。</p><p>怎么办呢？DP 的过程已经想不出任何可以优化的地方了，此时我们考虑再次优化「矩阵快速幂」。我们知道，此前我们说「矩阵乘法」执行一次的复杂度为 $\mathcal{O}(N^3)$，是因为是在对一个 $N \times N$ 的邻接矩阵进行计算，其结果最终落脚到转移矩阵 $f_t$ 上，而 $f_t$ 是一个行向量。如果能够直接将操作在 $f_t$ 上面执行，不借用一整个邻接矩阵，我们或许就可以将原本 $\mathcal{O}(N^3)$ 的复杂度降低到 $\mathcal{O}(N^2)$，从而通过此题。</p><p>由于 $\otimes$ 运算具有结合律，所以对原本的 DP 转移式 $f_t = f_0 \otimes d^t$，在考虑美食节后即 $f_{t_i} = f_{t_{i - 1}} \otimes d^{t_i - t_{i - 1}}$。我们可以将快速幂 $d^{t_i - t_{i - 1}}$ 中分解出来的若干个 $d^{2^k}$ 直接 $\otimes$ 乘到 $f_{t_{i - 1}}$ 上面！由于 $f_t$ 是行向量，相对于整个邻接矩阵来说少了一维，就可以像上面所说的实现 $\mathcal{O}(N^2)$ 转移了！为此，我们其实只需要在得出整个邻接矩阵 $d$ 后，用 $\mathcal{O}(N^3 \log T)$ 的复杂度将所有满足 $2 ^ k \leqslant T$ 的 $d^{2^k}$ 全部计算一遍就好了。计算出来之后，两次美食节之间就可以 $\mathcal{O}\left(N^2 \sum\log\left(t_i - t_{i - 1}\right)\right)$ 复杂度转移，总共 $k$ 次，所以总复杂度就为：</p><p>$$
+\mathcal{O} \left (k \log k + N^3 \log T + k \cdot N^2 \sum\log\left(t_i - t_{i - 1}\right) \right ).
+$$</p><h2 id=代码>代码</h2><details><summary>点击查看全部代码</summary><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>  1
+</span><span class=lnt>  2
+</span><span class=lnt>  3
+</span><span class=lnt>  4
+</span><span class=lnt>  5
+</span><span class=lnt>  6
+</span><span class=lnt>  7
+</span><span class=lnt>  8
+</span><span class=lnt>  9
+</span><span class=lnt> 10
+</span><span class=lnt> 11
+</span><span class=lnt> 12
+</span><span class=lnt> 13
+</span><span class=lnt> 14
+</span><span class=lnt> 15
+</span><span class=lnt> 16
+</span><span class=lnt> 17
+</span><span class=lnt> 18
+</span><span class=lnt> 19
+</span><span class=lnt> 20
+</span><span class=lnt> 21
+</span><span class=lnt> 22
+</span><span class=lnt> 23
+</span><span class=lnt> 24
+</span><span class=lnt> 25
+</span><span class=lnt> 26
+</span><span class=lnt> 27
+</span><span class=lnt> 28
+</span><span class=lnt> 29
+</span><span class=lnt> 30
+</span><span class=lnt> 31
+</span><span class=lnt> 32
+</span><span class=lnt> 33
+</span><span class=lnt> 34
+</span><span class=lnt> 35
+</span><span class=lnt> 36
+</span><span class=lnt> 37
+</span><span class=lnt> 38
+</span><span class=lnt> 39
+</span><span class=lnt> 40
+</span><span class=lnt> 41
+</span><span class=lnt> 42
+</span><span class=lnt> 43
+</span><span class=lnt> 44
+</span><span class=lnt> 45
+</span><span class=lnt> 46
+</span><span class=lnt> 47
+</span><span class=lnt> 48
+</span><span class=lnt> 49
+</span><span class=lnt> 50
+</span><span class=lnt> 51
+</span><span class=lnt> 52
+</span><span class=lnt> 53
+</span><span class=lnt> 54
+</span><span class=lnt> 55
+</span><span class=lnt> 56
+</span><span class=lnt> 57
+</span><span class=lnt> 58
+</span><span class=lnt> 59
+</span><span class=lnt> 60
+</span><span class=lnt> 61
+</span><span class=lnt> 62
+</span><span class=lnt> 63
+</span><span class=lnt> 64
+</span><span class=lnt> 65
+</span><span class=lnt> 66
+</span><span class=lnt> 67
+</span><span class=lnt> 68
+</span><span class=lnt> 69
+</span><span class=lnt> 70
+</span><span class=lnt> 71
+</span><span class=lnt> 72
+</span><span class=lnt> 73
+</span><span class=lnt> 74
+</span><span class=lnt> 75
+</span><span class=lnt> 76
+</span><span class=lnt> 77
+</span><span class=lnt> 78
+</span><span class=lnt> 79
+</span><span class=lnt> 80
+</span><span class=lnt> 81
+</span><span class=lnt> 82
+</span><span class=lnt> 83
+</span><span class=lnt> 84
+</span><span class=lnt> 85
+</span><span class=lnt> 86
+</span><span class=lnt> 87
+</span><span class=lnt> 88
+</span><span class=lnt> 89
+</span><span class=lnt> 90
+</span><span class=lnt> 91
+</span><span class=lnt> 92
+</span><span class=lnt> 93
+</span><span class=lnt> 94
+</span><span class=lnt> 95
+</span><span class=lnt> 96
+</span><span class=lnt> 97
+</span><span class=lnt> 98
+</span><span class=lnt> 99
+</span><span class=lnt>100
+</span><span class=lnt>101
+</span><span class=lnt>102
+</span><span class=lnt>103
+</span><span class=lnt>104
+</span><span class=lnt>105
+</span><span class=lnt>106
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;tuple&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;iostream&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;algorithm&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=k>using</span> <span class=n>LL</span> <span class=o>=</span> <span class=kt>long</span> <span class=kt>long</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>using</span> <span class=n>TUP</span> <span class=o>=</span> <span class=n>std</span><span class=o>::</span><span class=n>tuple</span><span class=o>&lt;</span><span class=kt>int</span><span class=p>,</span> <span class=kt>int</span><span class=p>,</span> <span class=kt>int</span><span class=o>&gt;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>const</span> <span class=kt>int</span> <span class=n>MAX_N</span> <span class=o>=</span> <span class=mi>55</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>const</span> <span class=kt>int</span> <span class=n>MAX_LG_T</span> <span class=o>=</span> <span class=mi>35</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>const</span> <span class=kt>int</span> <span class=n>MAX_K</span> <span class=o>=</span> <span class=mf>2e2</span> <span class=o>+</span> <span class=mi>5</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>const</span> <span class=kt>int</span> <span class=n>MAX_N_S</span> <span class=o>=</span> <span class=n>MAX_N</span> <span class=o>*</span> <span class=mi>5</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>const</span> <span class=n>LL</span> <span class=n>LL_MIN</span> <span class=o>=</span> <span class=mh>0xC0C0C0C0C0C0C0C0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>struct</span> <span class=nc>Matrix</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=n>LL</span> <span class=n>data</span><span class=p>[</span><span class=n>MAX_N_S</span><span class=p>][</span><span class=n>MAX_N_S</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>  <span class=kt>int</span> <span class=n>row</span><span class=p>,</span> <span class=n>col</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=kt>void</span> <span class=nf>fill</span><span class=p>(</span><span class=k>const</span> <span class=n>LL</span> <span class=n>x</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=o>=</span> <span class=mi>1</span><span class=p>;</span> <span class=n>i</span> <span class=o>&lt;=</span> <span class=n>row</span><span class=p>;</span> <span class=o>++</span><span class=n>i</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>      <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>j</span> <span class=o>=</span> <span class=mi>1</span><span class=p>;</span> <span class=n>j</span> <span class=o>&lt;=</span> <span class=n>col</span><span class=p>;</span> <span class=o>++</span><span class=n>j</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>data</span><span class=p>[</span><span class=n>i</span><span class=p>][</span><span class=n>j</span><span class=p>]</span> <span class=o>=</span> <span class=n>x</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=n>Matrix</span> <span class=k>operator</span><span class=o>*</span><span class=p>(</span><span class=k>const</span> <span class=n>Matrix</span><span class=o>&amp;</span> <span class=n>B</span><span class=p>)</span> <span class=k>const</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>Matrix</span> <span class=nf>C</span><span class=p>(</span><span class=n>row</span><span class=p>,</span> <span class=n>B</span><span class=p>.</span><span class=n>col</span><span class=p>,</span> <span class=n>LL_MIN</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=o>=</span> <span class=mi>1</span><span class=p>;</span> <span class=n>i</span> <span class=o>&lt;=</span> <span class=n>row</span><span class=p>;</span> <span class=o>++</span><span class=n>i</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>      <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>j</span> <span class=o>=</span> <span class=mi>1</span><span class=p>;</span> <span class=n>j</span> <span class=o>&lt;=</span> <span class=n>col</span><span class=p>;</span> <span class=o>++</span><span class=n>j</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>k</span> <span class=o>=</span> <span class=mi>1</span><span class=p>;</span> <span class=n>k</span> <span class=o>&lt;=</span> <span class=n>B</span><span class=p>.</span><span class=n>col</span><span class=p>;</span> <span class=o>++</span><span class=n>k</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>          <span class=n>C</span><span class=p>.</span><span class=n>data</span><span class=p>[</span><span class=n>i</span><span class=p>][</span><span class=n>k</span><span class=p>]</span> <span class=o>=</span> <span class=n>std</span><span class=o>::</span><span class=n>max</span><span class=p>(</span><span class=n>C</span><span class=p>.</span><span class=n>data</span><span class=p>[</span><span class=n>i</span><span class=p>][</span><span class=n>k</span><span class=p>],</span> <span class=n>data</span><span class=p>[</span><span class=n>i</span><span class=p>][</span><span class=n>j</span><span class=p>]</span> <span class=o>+</span> <span class=n>B</span><span class=p>.</span><span class=n>data</span><span class=p>[</span><span class=n>j</span><span class=p>][</span><span class=n>k</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=n>C</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=n>Matrix</span><span class=p>()</span> <span class=p>{}</span>
+</span></span><span class=line><span class=cl>  <span class=n>Matrix</span><span class=p>(</span><span class=k>const</span> <span class=kt>int</span> <span class=n>_r</span><span class=p>,</span> <span class=k>const</span> <span class=kt>int</span> <span class=n>_c</span><span class=p>,</span> <span class=k>const</span> <span class=n>LL</span> <span class=n>x</span><span class=p>)</span> <span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=n>row</span><span class=p>(</span><span class=n>_r</span><span class=p>),</span> <span class=n>col</span><span class=p>(</span><span class=n>_c</span><span class=p>)</span> <span class=p>{</span> <span class=n>fill</span><span class=p>(</span><span class=n>x</span><span class=p>);</span> <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=n>n</span><span class=p>,</span> <span class=n>m</span><span class=p>,</span> <span class=n>T</span><span class=p>,</span> <span class=n>K</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=n>c</span><span class=p>[</span><span class=n>MAX_N</span><span class=p>],</span> <span class=n>logT</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>TUP</span> <span class=n>fest</span><span class=p>[</span><span class=n>MAX_K</span><span class=p>];</span>
+</span></span><span class=line><span class=cl><span class=n>Matrix</span> <span class=n>G</span><span class=p>,</span> <span class=n>pow2</span><span class=p>[</span><span class=n>MAX_LG_T</span><span class=p>],</span> <span class=n>vec</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kt>void</span> <span class=nf>prep</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=n>pow2</span><span class=p>[</span><span class=mi>0</span><span class=p>]</span> <span class=o>=</span> <span class=n>G</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>  <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=o>=</span> <span class=mi>1</span><span class=p>;</span> <span class=n>i</span> <span class=o>&lt;=</span> <span class=n>logT</span><span class=p>;</span> <span class=o>++</span><span class=n>i</span><span class=p>)</span> <span class=n>pow2</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=o>=</span> <span class=n>pow2</span><span class=p>[</span><span class=n>i</span> <span class=o>-</span> <span class=mi>1</span><span class=p>]</span> <span class=o>*</span> <span class=n>pow2</span><span class=p>[</span><span class=n>i</span> <span class=o>-</span> <span class=mi>1</span><span class=p>];</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kt>void</span> <span class=nf>power</span><span class=p>(</span><span class=n>Matrix</span><span class=o>&amp;</span> <span class=n>A</span><span class=p>,</span> <span class=kt>int</span> <span class=n>b</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=k>if</span> <span class=p>(</span><span class=n>b</span> <span class=o>==</span> <span class=mi>0</span><span class=p>)</span> <span class=k>return</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>  <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=n>i</span> <span class=o>&lt;=</span> <span class=n>logT</span><span class=p>;</span> <span class=o>++</span><span class=n>i</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>((</span><span class=n>b</span> <span class=o>&gt;&gt;</span> <span class=n>i</span><span class=p>)</span> <span class=o>&amp;</span> <span class=mi>1</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>      <span class=n>A</span> <span class=o>=</span> <span class=n>pow2</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=o>*</span> <span class=n>A</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=n>std</span><span class=o>::</span><span class=n>ios</span><span class=o>::</span><span class=n>sync_with_stdio</span><span class=p>(</span><span class=nb>false</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>  <span class=n>std</span><span class=o>::</span><span class=n>cin</span><span class=p>.</span><span class=n>tie</span><span class=p>(</span><span class=k>nullptr</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=n>std</span><span class=o>::</span><span class=n>cin</span> <span class=o>&gt;&gt;</span> <span class=n>n</span> <span class=o>&gt;&gt;</span> <span class=n>m</span> <span class=o>&gt;&gt;</span> <span class=n>T</span> <span class=o>&gt;&gt;</span> <span class=n>K</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=n>logT</span> <span class=o>=</span> <span class=n>std</span><span class=o>::</span><span class=n>__lg</span><span class=p>(</span><span class=n>T</span><span class=p>);</span>               <span class=c1>// 计算 log(T) 的值
+</span></span></span><span class=line><span class=cl><span class=c1></span>  <span class=n>G</span> <span class=o>=</span> <span class=n>Matrix</span><span class=p>(</span><span class=n>n</span> <span class=o>*</span> <span class=mi>5</span><span class=p>,</span> <span class=n>n</span> <span class=o>*</span> <span class=mi>5</span><span class=p>,</span> <span class=n>LL_MIN</span><span class=p>);</span>  <span class=c1>// 创建邻接矩阵并用负无穷填充
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl>  <span class=c1>// 初始化每个点所拆成的五个点之间的连边
+</span></span></span><span class=line><span class=cl><span class=c1></span>  <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=o>=</span> <span class=mi>1</span><span class=p>;</span> <span class=n>i</span> <span class=o>&lt;=</span> <span class=n>n</span><span class=p>;</span> <span class=o>++</span><span class=n>i</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>w</span> <span class=o>=</span> <span class=mi>1</span><span class=p>;</span> <span class=n>w</span> <span class=o>&lt;</span> <span class=mi>5</span><span class=p>;</span> <span class=o>++</span><span class=n>w</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>      <span class=n>G</span><span class=p>.</span><span class=n>data</span><span class=p>[</span><span class=n>n</span> <span class=o>*</span> <span class=n>w</span> <span class=o>+</span> <span class=n>i</span><span class=p>][</span><span class=n>n</span> <span class=o>*</span> <span class=p>(</span><span class=n>w</span> <span class=o>-</span> <span class=mi>1</span><span class=p>)</span> <span class=o>+</span> <span class=n>i</span><span class=p>]</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=o>=</span> <span class=mi>1</span><span class=p>;</span> <span class=n>i</span> <span class=o>&lt;=</span> <span class=n>n</span><span class=p>;</span> <span class=o>++</span><span class=n>i</span><span class=p>)</span> <span class=n>std</span><span class=o>::</span><span class=n>cin</span> <span class=o>&gt;&gt;</span> <span class=n>c</span><span class=p>[</span><span class=n>i</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=o>=</span> <span class=mi>1</span><span class=p>,</span> <span class=n>u</span><span class=p>,</span> <span class=n>v</span><span class=p>,</span> <span class=n>w</span><span class=p>;</span> <span class=n>i</span> <span class=o>&lt;=</span> <span class=n>m</span><span class=p>;</span> <span class=o>++</span><span class=n>i</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>cin</span> <span class=o>&gt;&gt;</span> <span class=n>u</span> <span class=o>&gt;&gt;</span> <span class=n>v</span> <span class=o>&gt;&gt;</span> <span class=n>w</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>G</span><span class=p>.</span><span class=n>data</span><span class=p>[</span><span class=n>v</span><span class=p>][</span><span class=n>n</span> <span class=o>*</span> <span class=p>(</span><span class=n>w</span> <span class=o>-</span> <span class=mi>1</span><span class=p>)</span> <span class=o>+</span> <span class=n>u</span><span class=p>]</span> <span class=o>=</span> <span class=n>c</span><span class=p>[</span><span class=n>u</span><span class=p>];</span>  <span class=c1>// 按照边的信息把边连到拆开的点上
+</span></span></span><span class=line><span class=cl><span class=c1></span>  <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=o>=</span> <span class=mi>1</span><span class=p>;</span> <span class=n>i</span> <span class=o>&lt;=</span> <span class=n>K</span><span class=p>;</span> <span class=o>++</span><span class=n>i</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>auto</span><span class=o>&amp;</span> <span class=p>[</span><span class=n>t</span><span class=p>,</span> <span class=n>x</span><span class=p>,</span> <span class=n>y</span><span class=p>]</span> <span class=o>=</span> <span class=n>fest</span><span class=p>[</span><span class=n>i</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>cin</span> <span class=o>&gt;&gt;</span> <span class=n>t</span> <span class=o>&gt;&gt;</span> <span class=n>x</span> <span class=o>&gt;&gt;</span> <span class=n>y</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=n>prep</span><span class=p>();</span>  <span class=c1>// 二进制预处理邻接矩阵
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl>  <span class=n>std</span><span class=o>::</span><span class=n>sort</span><span class=p>(</span><span class=n>fest</span> <span class=o>+</span> <span class=mi>1</span><span class=p>,</span> <span class=n>fest</span> <span class=o>+</span> <span class=n>K</span> <span class=o>+</span> <span class=mi>1</span><span class=p>);</span>  <span class=c1>// 对美食节进行排序
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl>  <span class=n>Matrix</span> <span class=n>vec</span><span class=p>(</span><span class=n>n</span> <span class=o>*</span> <span class=mi>5</span><span class=p>,</span> <span class=mi>1</span><span class=p>,</span> <span class=n>LL_MIN</span><span class=p>);</span>  <span class=c1>// 创建 f 行向量
+</span></span></span><span class=line><span class=cl><span class=c1></span>  <span class=n>vec</span><span class=p>.</span><span class=n>data</span><span class=p>[</span><span class=mi>1</span><span class=p>][</span><span class=mi>1</span><span class=p>]</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>            <span class=c1>// 初始化
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl>  <span class=c1>// 分段转移
+</span></span></span><span class=line><span class=cl><span class=c1></span>  <span class=kt>int</span> <span class=n>current_time</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=o>=</span> <span class=mi>1</span><span class=p>;</span> <span class=n>i</span> <span class=o>&lt;=</span> <span class=n>K</span><span class=p>;</span> <span class=o>++</span><span class=n>i</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>auto</span> <span class=p>[</span><span class=n>time</span><span class=p>,</span> <span class=n>city</span><span class=p>,</span> <span class=n>joy</span><span class=p>]</span> <span class=o>=</span> <span class=n>fest</span><span class=p>[</span><span class=n>i</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>    <span class=n>power</span><span class=p>(</span><span class=n>vec</span><span class=p>,</span> <span class=n>time</span> <span class=o>-</span> <span class=n>current_time</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=n>vec</span><span class=p>.</span><span class=n>data</span><span class=p>[</span><span class=n>city</span><span class=p>][</span><span class=mi>1</span><span class=p>]</span> <span class=o>+=</span> <span class=n>joy</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>current_time</span> <span class=o>=</span> <span class=n>time</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=n>power</span><span class=p>(</span><span class=n>vec</span><span class=p>,</span> <span class=n>T</span> <span class=o>-</span> <span class=n>current_time</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=c1>// 输出答案
+</span></span></span><span class=line><span class=cl><span class=c1></span>  <span class=n>LL</span> <span class=n>ans</span> <span class=o>=</span> <span class=n>vec</span><span class=p>.</span><span class=n>data</span><span class=p>[</span><span class=mi>1</span><span class=p>][</span><span class=mi>1</span><span class=p>]</span> <span class=o>+</span> <span class=n>c</span><span class=p>[</span><span class=mi>1</span><span class=p>];</span>                  <span class=c1>// 由于转移不考虑第一个城市，需要额外加上
+</span></span></span><span class=line><span class=cl><span class=c1></span>  <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=p>(</span><span class=n>ans</span> <span class=o>&lt;</span> <span class=mi>0</span> <span class=o>?</span> <span class=o>-</span><span class=mi>1</span> <span class=o>:</span> <span class=n>ans</span><span class=p>)</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span>  <span class=c1>// 输出答案或者报告无解
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl>  <span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div></details></section><footer class=article-footer><section class=article-tags><a href=/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/>动态规划</a>
+<a href=/tags/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/>线性代数</a></section><section class=article-copyright><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg>
+<span>Licensed under CC BY-NC-SA 4.0</span></section></footer><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css integrity=sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV crossorigin=anonymous><script src=https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js integrity=sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8 crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js integrity=sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05 crossorigin=anonymous defer></script><script>window.addEventListener("DOMContentLoaded",()=>{renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1},{left:"\\(",right:"\\)",display:!1},{left:"\\[",right:"\\]",display:!0}],ignoredClasses:["gist"]})})</script></article><aside class=related-content--wrapper><h2 class=section-title>相关文章</h2><div class=related-content><div class="flex article-list--tile"><article><a href=/p/lis-w-binary-search/><div class=article-details><h2 class=article-title>最长上升子序列问题的二分优化</h2></div></a></article></div></div></aside><footer class=site-footer><section class=copyright>&copy;
+2024 Eoin Lee's Blog</section><section class=powerby>使用 <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a> 构建<br>主题 <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.26.0>Stack</a></b> 由 <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a> 设计</section></footer><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+<button class="pswp__button pswp__button--share" title=Share></button>
+<button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class=pswp__preloader><div class=pswp__preloader__icn><div class=pswp__preloader__cut><div class=pswp__preloader__donut></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class=pswp__share-tooltip></div></div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+</button>
+<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class=pswp__caption><div class=pswp__caption__center></div></div></div></div></div><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo=" crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU=" crossorigin=anonymous defer></script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css crossorigin=anonymous><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css crossorigin=anonymous></main></div><script src=https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z+KMkF24hUW8WePSA9HM=" crossorigin=anonymous></script><script type=text/javascript src=/ts/main.js defer></script><script>(function(){const e=document.createElement("link");e.href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap",e.type="text/css",e.rel="stylesheet",document.head.appendChild(e)})()</script></body></html>

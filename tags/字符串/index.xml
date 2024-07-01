@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>字符串 on Eoin Lee's Blog</title><link>https://eoin.blog/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/</link><description>Recent content in 字符串 on Eoin Lee's Blog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Fri, 10 May 2024 00:00:02 +0800</lastBuildDate><atom:link href="https://eoin.blog/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/index.xml" rel="self" type="application/rss+xml"/><item><title>KMP 模式匹配算法与前缀函数</title><link>https://eoin.blog/p/kmp-prefix-func/</link><pubDate>Fri, 10 May 2024 00:00:02 +0800</pubDate><guid>https://eoin.blog/p/kmp-prefix-func/</guid><description>&lt;ul>
+&lt;li>模板题目：&lt;a class="link" href="https://loj.ac/p/103" target="_blank" rel="noopener"
+>LibreOJ #103&lt;/a> 或 &lt;a class="link" href="https://www.luogu.com.cn/problem/P3375" target="_blank" rel="noopener"
+>洛谷 P3375&lt;/a> 或 &lt;a class="link" href="https://www.acwing.com/problem/content/833/" target="_blank" rel="noopener"
+>AcWing 831&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;blockquote>
+&lt;p>求给定的字符串 $s$ 作为子串在另一个给定的字符串 $t$ 中所有出现的位置。&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="朴素算法">朴素算法
+&lt;/h2>&lt;p>对于这个问题，最朴素的方法莫过于暴力枚举，也就是分别从 $t$ 的每一个位置开始遍历，逐位比较当前字符与 $s$ 中对应字符是否相匹配。代码写起来很无脑：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-cpp" data-lang="cpp">&lt;span class="line">&lt;span class="cl">&lt;span class="n">string&lt;/span> &lt;span class="n">s&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">t&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kt">int&lt;/span> &lt;span class="nf">main&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">ios&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">sync_with_stdio&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nb">false&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">cin&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">tie&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="k">nullptr&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">cin&lt;/span> &lt;span class="o">&amp;gt;&amp;gt;&lt;/span> &lt;span class="n">s&lt;/span> &lt;span class="o">&amp;gt;&amp;gt;&lt;/span> &lt;span class="n">t&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kt">int&lt;/span> &lt;span class="n">n&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">s&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">length&lt;/span>&lt;span class="p">(),&lt;/span> &lt;span class="n">m&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">t&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">length&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">for&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="kt">int&lt;/span> &lt;span class="n">i&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">0&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="n">i&lt;/span> &lt;span class="o">&amp;lt;&lt;/span> &lt;span class="n">m&lt;/span> &lt;span class="o">-&lt;/span> &lt;span class="n">n&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="n">i&lt;/span>&lt;span class="o">++&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kt">bool&lt;/span> &lt;span class="n">flag&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nb">true&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">for&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="kt">int&lt;/span> &lt;span class="n">j&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">0&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="n">j&lt;/span> &lt;span class="o">&amp;lt;&lt;/span> &lt;span class="n">n&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="n">j&lt;/span>&lt;span class="o">++&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">s&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">j&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">!=&lt;/span> &lt;span class="n">t&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">i&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="n">j&lt;/span>&lt;span class="p">])&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">flag&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nb">false&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">break&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">flag&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">cout&lt;/span> &lt;span class="o">&amp;lt;&amp;lt;&lt;/span> &lt;span class="n">i&lt;/span> &lt;span class="o">&amp;lt;&amp;lt;&lt;/span> &lt;span class="n">endl&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="n">fflush&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">stdout&lt;/span>&lt;span class="p">),&lt;/span> &lt;span class="mi">0&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>以上代码的复杂度近似为 $\mathcal{O}(nm)$，也就是两个字符串长度的乘积。在给出的模板题中，$1 \leqslant n, m \leqslant 10^6$，朴素算法显然是无法在时限内得出结果的。&lt;/p>
+&lt;h2 id="前缀函数">前缀函数
+&lt;/h2>&lt;blockquote>
+&lt;p>本节中，默认一个字符串的起始位置（下标）为 $0$。&lt;/p>
+&lt;/blockquote>
+&lt;p>先来看看朴素算法具体是如何得出结果的。朴素算法的逻辑是，假如两个字符串之间出现了分歧，那么直接从头重新开始新一轮枚举。不过现在，假如我们可以根据已经遍历过的字符直接确定出接下来要把指针移动到什么位置去，就可以节省朴素算法每次将指针回退到开头、逐位枚举所造成的时间浪费。这就是接下来要介绍的 KMP 模式匹配算法降低复杂度的底层逻辑。不过在此之前，我们还要先引入&lt;strong>前缀函数&lt;/strong>这样一个概念。&lt;/p>
+&lt;p>对于字符串 $s$，可以构造一个数组 $\pi$，其中每一个元素 $\pi[i]$ 存储由 $s[0]$ 到 $s[i]$ 这 $i+1$ 个字符组成的子串中的真前缀与真后缀相等时它们的长度。&lt;/p>
+&lt;p>比如字符串 &lt;code>ATAATA&lt;/code> 可以构建出的 $\pi$ 数组为 $\left \lbrace 0, 0, 1, 1, 2, 3 \right \rbrace$，这 $6$ 个数分别表示子串为 &lt;code>A&lt;/code>、&lt;code>AT&lt;/code>、&lt;code>ATA&lt;/code>、&lt;code>ATAA&lt;/code>、&lt;code>ATAAT&lt;/code> 和 &lt;code>ATAATA&lt;/code> 时，子串的真前缀与真后缀（字符串&lt;strong>真前、后缀&lt;/strong>的概念，可以类比数组中&lt;strong>前、后缀和&lt;/strong>以及集合论中&lt;strong>真&lt;/strong>子集的概念）相等时它们的长度：&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>A&lt;/code> 没有真前缀和真后缀，存储为 $0$；&lt;/li>
+&lt;li>&lt;code>AT&lt;/code> 的真前缀与真后缀均不相等，存储为 $0$；&lt;/li>
+&lt;li>&lt;code>ATA&lt;/code> 的最长相等真前、后缀为 &lt;code>A&lt;/code>，长度为 $1$；&lt;/li>
+&lt;li>&lt;code>ATAA&lt;/code> 的最长相等真前、后缀也为 &lt;code>A&lt;/code>，长度为 $1$；&lt;/li>
+&lt;li>&lt;code>ATAAT&lt;/code> 的最长相等真前、后缀为 &lt;code>AT&lt;/code>，长度为 $2$；&lt;/li>
+&lt;li>&lt;code>ATAATA&lt;/code> 的最长相等真前、后缀为 &lt;code>ATA&lt;/code>，长度为 $3$。&lt;/li>
+&lt;/ul>
+&lt;p>这样的数组 $\pi$，我们称之为字符串 $s$ 的前缀函数。&lt;/p>
+&lt;p>然后拿 $s$ 与 $t$ 进行匹配，但是同时借助前缀函数来确定指针移动的位置。我们以 $s = \texttt{ATAATA}$、$t = \texttt{ATAAATAATA}$ 为例 。将 $i$ 与 $j$ &lt;strong>同时&lt;/strong>从各自字符串的开头向后移动，直到出现分歧。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-text" data-lang="text">&lt;span class="line">&lt;span class="cl"> i
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">ATAAATAATA
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">ATAATA
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> j
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>然后我们查看 $s$ 中分歧前一位的位置 $3$ 在 $\pi$ 数组中存储的值，即 $\pi[3] = 1$，再将 $j$ 移动到 $s$ 的 $1$ 位置：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-text" data-lang="text">&lt;span class="line">&lt;span class="cl"> i
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">ATAAATAATA
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> ATAATA
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> j
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>可以看到，这个时候，$s$ 中的第一个字符没有经过重新遍历就已经匹配上了！这是巧合吗？并不是。&lt;/p>
+&lt;p>联系 $\pi$ 数组的定义，我们可以发现，这一效果得以实现的原因是，分歧字符之前的 &lt;code>ATAA&lt;/code> 这个子串的最长相等真前、后缀的长度为 $1$，也就是说，由于我们先前已经确认 $s$ 与 $t$ 的前 $4$ 个字符相同，其中最长相等真前、后缀的长度都为 $1$，即 $s$ 的第 $0$ 个位置和第 $3$ 个位置 、$t$ 的第 $0$ 个位置和第 $3$ 个位置的字符相同。那么那么出现分歧之后，就可以直接根据 $s$ 的第 $0$ 个位置的 &lt;code>A&lt;/code> 与 $t$ 第 $3$ 个位置的 &lt;code>A&lt;/code> 相匹配，把整个字符串向后移动到下一个位置，也就是把 $j$ 指针移动到 $\pi[3] = 1$ 的位置。&lt;/p>
+&lt;p>具体可以看下面的图示：&lt;/p>
+&lt;p>&lt;img src="https://eoin.blog/p/kmp-prefix-func/step1.png"
+width="960"
+height="720"
+srcset="https://eoin.blog/p/kmp-prefix-func/step1_hub8a509bcc4cedc3b855bcee9a4fb2c8e_22397_480x0_resize_box_3.png 480w, https://eoin.blog/p/kmp-prefix-func/step1_hub8a509bcc4cedc3b855bcee9a4fb2c8e_22397_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="133"
+data-flex-basis="320px"
+>
+&lt;img src="https://eoin.blog/p/kmp-prefix-func/step2.png"
+width="960"
+height="720"
+srcset="https://eoin.blog/p/kmp-prefix-func/step2_hufa989cd0ecf080d80d39563a5aedd180_24115_480x0_resize_box_3.png 480w, https://eoin.blog/p/kmp-prefix-func/step2_hufa989cd0ecf080d80d39563a5aedd180_24115_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="133"
+data-flex-basis="320px"
+>&lt;/p>
+&lt;p>&lt;img src="https://eoin.blog/p/kmp-prefix-func/step3.png"
+width="960"
+height="720"
+srcset="https://eoin.blog/p/kmp-prefix-func/step3_hu04338a1f60a6139262aedcf87d6fc7ab_29236_480x0_resize_box_3.png 480w, https://eoin.blog/p/kmp-prefix-func/step3_hu04338a1f60a6139262aedcf87d6fc7ab_29236_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="133"
+data-flex-basis="320px"
+>
+&lt;img src="https://eoin.blog/p/kmp-prefix-func/step4.png"
+width="960"
+height="720"
+srcset="https://eoin.blog/p/kmp-prefix-func/step4_hu7504a806ce6de921fb85ba5077e30410_30834_480x0_resize_box_3.png 480w, https://eoin.blog/p/kmp-prefix-func/step4_hu7504a806ce6de921fb85ba5077e30410_30834_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="133"
+data-flex-basis="320px"
+>
+&lt;img src="https://eoin.blog/p/kmp-prefix-func/step5.png"
+width="960"
+height="720"
+srcset="https://eoin.blog/p/kmp-prefix-func/step5_hub99de2a1e406e4b376a1ce0ad7f76ba5_30964_480x0_resize_box_3.png 480w, https://eoin.blog/p/kmp-prefix-func/step5_hub99de2a1e406e4b376a1ce0ad7f76ba5_30964_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="133"
+data-flex-basis="320px"
+>&lt;/p>
+&lt;p>从这个意义上来说，$\pi$ 数组存储的值实际上是当前长度的子串中，最长相等真前、后缀的长度 $+1$ 之后在原子串里的位置。在这个位置之前的 $s$ 中第 $0$ 个位置一直到第 $\pi[i]$ 个位置的所有字符所构成的子串，与 $t$ 中第 $i - \pi[i]$ 个位置一直到第 $i - 1$ 个位置的所有字符所构成的子串，是完全相同的。因此我们可以把 $s[0] \sim s[\pi[i]]$ 移动到 $t[i-\pi[i]] \sim t[i-1]$ 的位置上（在图形中是把整个 $s$ 字符串向后移动，代码里通过调整 $j$ 指针位置来实现），而不需要重新去遍历之前的每一个字符。&lt;/p>
+&lt;hr>
+&lt;p>说了这么多，那么 $s$ 的前缀函数到底如何用程序计算出来呢？&lt;/p>
+&lt;p>朴素算法显然可以很容易地解决这个问题，但是同样需要对 $s$ 进行两次扫描，时间复杂度约为 $\mathcal{O}(n^2)$，显然是不过关的。我们还是可以用 $i$ 和 $j$ 指针向后移动的方法进行匹配，但是二者分别扫描各自的 $s$ 字符串，具体方法如下：（$s = \texttt{ABACABA}$，$\pi[0]$ 默认为 $0$）&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-text" data-lang="text">&lt;span class="line">&lt;span class="cl"> i
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">ABACABA
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> ABACABA
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> j
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>我们从 $i=1, j = 0$ 开始扫描（$i$ 如果从头开始扫描，那么 $i$ 和 $j$ 扫描到的字符一定会匹配，因为本来就是两个相同的字符串在相互匹配） ，发现第一个字符就出现了分歧，这意味着 $\pi[1] = 0$，因为 $i$ 后的所有字符所组成的后缀与 $j$ 及其之前所有字符组成的前缀并不相同。我们把 $0$ 存入 $\pi[1]$ 的位置上，然后让 $i$ 向后移一位（$j$ 只在匹配到相同字符之后才向后移）。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-text" data-lang="text">&lt;span class="line">&lt;span class="cl"> i
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">ABACABA
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> ABACABA
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> j
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>两个位置相同，所以 $\pi[2] = 1$，表示找到了 &lt;code>ABA&lt;/code> 中的一个最长相等前、后缀 &lt;code>A&lt;/code>，其长度为 $1$。然后就可以将 $i$ 与 $j$ 同时向后移动了。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-text" data-lang="text">&lt;span class="line">&lt;span class="cl"> i
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">ABACABA
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> ABACABA
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> j
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>显见这两个字符不同，此时我们需要在已有的 $\pi$ 数组中查找，看能不能将 $j$ 所在的 $s$ 字符串向后移动到下一个匹配过的位置。这里的原理与实现方法，和前面提到的匹配 $t$ 与 $s$ 的原理和方法是一致的，我们查询 $\pi$ 数组的目的，是为了节省朴素算法中从头开始遍历所浪费掉的时间。不过这里，由于 $\pi[j-1] = \pi[0] = 0$，意味着我们遍历过的字符中，找不到下一个字符来让我们直接移动 $j$ 指针以使 $j$ 所在的 $s$ 字符串开头与 $i$ 所在的 $s$ 字符串中遍历过的字符相匹配的位置了（$j$ 所在 $s$ 字符串前缀的 &lt;code>A&lt;/code> 已经与 &lt;code>ABA&lt;/code> 中后缀里的 &lt;code>A&lt;/code> 的位置重合了）。所以我们还是把 $j$ 设为 $\pi[0] = 0$，从 $j$ 所在 $s$ 字符串的开头重新开始遍历。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-text" data-lang="text">&lt;span class="line">&lt;span class="cl"> i
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">ABACABA
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> ABACABA
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> j
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>还是不匹配，设 $\pi[3] = 0$。将 $i$ 向后移动。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-text" data-lang="text">&lt;span class="line">&lt;span class="cl"> i
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">ABACABA
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> ABACABA
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> j
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>发现匹配，设 $\pi[4] = 1$。将 $i$ 和 $j$ 同时向后移动，直到结尾，就可以得出 $\pi[5] = 2$ 和 $\pi[6] = 3$。&lt;/p>
+&lt;p>从上面的例子中，我们可以看出，如果不匹配，就将 $\pi[i]$ 设为 $0$，仅移动 $i$ 指针，并且如果 $j \ne 0$，就根据 $\pi$ 数组中已有的值让 $j$ 指针&lt;strong>向前&lt;/strong>返回到下一个可能出现匹配的位置；否则，$\pi[i] = j +1$，也就是在之前最大长度的基础上加上这新遍历到的一个字符。&lt;/p>
+&lt;p>这就是 KMP 模式匹配算法背后的原理。&lt;/p>
+&lt;h2 id="代码实现">代码实现
+&lt;/h2>&lt;p>综合一下之前的推理，我们可以把代码分成几个步骤：&lt;/p>
+&lt;ul>
+&lt;li>计算 $s$ 的前缀数组 $\pi$：
+&lt;ul>
+&lt;li>如果当前位置字符不匹配，$j$ 指针回溯到下一个可能出现匹配的位置；&lt;/li>
+&lt;li>如果成功匹配，$j$ 指针移动到下一位；&lt;/li>
+&lt;li>存储 $\pi[i]$ 的值。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>在 $t$ 中查找 $s$：
+&lt;ul>
+&lt;li>如果当前位置字符不匹配，$j$ 指针回溯到下一个可能出现匹配的位置；&lt;/li>
+&lt;li>如果成功匹配，$j$ 指针移动到下一位；&lt;/li>
+&lt;li>如果 $j$ 指针已经成功到了 $s$ 串末尾，则输出所在位置并回溯到下一个可能出现匹配的位置（因为 $t$ 中的 $s$ 串可能重叠），继续匹配。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;span class="lnt">27
+&lt;/span>&lt;span class="lnt">28
+&lt;/span>&lt;span class="lnt">29
+&lt;/span>&lt;span class="lnt">30
+&lt;/span>&lt;span class="lnt">31
+&lt;/span>&lt;span class="lnt">32
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-cpp" data-lang="cpp">&lt;span class="line">&lt;span class="cl">&lt;span class="k">const&lt;/span> &lt;span class="kt">int&lt;/span> &lt;span class="n">N&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mf">1e6&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="mi">10&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kt">int&lt;/span> &lt;span class="n">pi&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">N&lt;/span>&lt;span class="p">];&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">string&lt;/span> &lt;span class="n">s&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">t&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kt">int&lt;/span> &lt;span class="nf">main&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">ios&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">sync_with_stdio&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nb">false&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">cin&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">tie&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="k">nullptr&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">cin&lt;/span> &lt;span class="o">&amp;gt;&amp;gt;&lt;/span> &lt;span class="n">s&lt;/span> &lt;span class="o">&amp;gt;&amp;gt;&lt;/span> &lt;span class="n">t&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kt">int&lt;/span> &lt;span class="n">n&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">s&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">length&lt;/span>&lt;span class="p">(),&lt;/span> &lt;span class="n">m&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">t&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">length&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">for&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="kt">int&lt;/span> &lt;span class="n">i&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">j&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">0&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="n">i&lt;/span> &lt;span class="o">&amp;lt;&lt;/span> &lt;span class="n">n&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="n">i&lt;/span>&lt;span class="o">++&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">while&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">j&lt;/span> &lt;span class="o">&amp;gt;&lt;/span> &lt;span class="mi">0&lt;/span> &lt;span class="o">&amp;amp;&amp;amp;&lt;/span> &lt;span class="n">s&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">j&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">!=&lt;/span> &lt;span class="n">s&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">i&lt;/span>&lt;span class="p">])&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">j&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">pi&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">j&lt;/span> &lt;span class="o">-&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">];&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">s&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">j&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">==&lt;/span> &lt;span class="n">s&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">i&lt;/span>&lt;span class="p">])&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">j&lt;/span>&lt;span class="o">++&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">pi&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">i&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">j&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">for&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="kt">int&lt;/span> &lt;span class="n">i&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">0&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">j&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">0&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="n">i&lt;/span> &lt;span class="o">&amp;lt;&lt;/span> &lt;span class="n">m&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="n">i&lt;/span>&lt;span class="o">++&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">while&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">j&lt;/span> &lt;span class="o">&amp;gt;&lt;/span> &lt;span class="mi">0&lt;/span> &lt;span class="o">&amp;amp;&amp;amp;&lt;/span> &lt;span class="n">t&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">i&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">!=&lt;/span> &lt;span class="n">s&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">j&lt;/span>&lt;span class="p">])&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">j&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">pi&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">j&lt;/span> &lt;span class="o">-&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">];&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">t&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">i&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">==&lt;/span> &lt;span class="n">s&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">j&lt;/span>&lt;span class="p">])&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">j&lt;/span>&lt;span class="o">++&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">j&lt;/span> &lt;span class="o">==&lt;/span> &lt;span class="n">n&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">cout&lt;/span> &lt;span class="o">&amp;lt;&amp;lt;&lt;/span> &lt;span class="n">i&lt;/span> &lt;span class="o">-&lt;/span> &lt;span class="n">j&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="mi">1&lt;/span> &lt;span class="o">&amp;lt;&amp;lt;&lt;/span> &lt;span class="sc">&amp;#39; &amp;#39;&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">j&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">pi&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">j&lt;/span> &lt;span class="o">-&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">];&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="n">fflush&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">stdout&lt;/span>&lt;span class="p">),&lt;/span> &lt;span class="mi">0&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div></description></item></channel></rss>
