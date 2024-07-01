@@ -4,7 +4,7 @@
     --zh-font-family: "PingFang SC", "Source Han Sans SC VF",
       "Source Han Sans SC", "Noto Sans CJK SC", "Microsoft YaHei UI",
       "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
-    --base-font-family: Rubik, var(--sys-font-family), var(--zh-font-family),
+    --base-font-family: var(--sys-font-family), var(--zh-font-family),
       sans-serif, "Noto Color Emoji";
     --code-font-family: Menlo, Monaco, Consolas, "Courier New",
       var(--zh-font-family), monospace;
@@ -17,22 +17,17 @@
   (function () {
     const preconnect1 = document.createElement("link");
     const preconnect2 = document.createElement("link");
-    const loadFont1 = document.createElement("link");
-    const loadFont2 = document.createElement("link");
+    const loadFont = document.createElement("link");
     preconnect1.rel = "preconnect";
     preconnect1.href = "https://fonts.googleapis.com";
     preconnect2.rel = "preconnect";
     preconnect2.href = "https://fonts.gstatic.com";
     preconnect2.crossOrigin = "anonymous";
-    loadFont1.rel = "stylesheet";
-    loadFont1.href =
+    loadFont.rel = "stylesheet";
+    loadFont.href =
       "https://fonts.googleapis.com/css2?family=Noto+Color+Emoji&display=swap";
-    loadFont2.rel = "stylesheet";
-    loadFont2.href =
-      "https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap";
     document.head.appendChild(preconnect1);
     document.head.appendChild(preconnect2);
-    document.head.appendChild(loadFont1);
-    document.head.appendChild(loadFont2);
+    document.head.appendChild(loadFont);
   })();
 </script>
